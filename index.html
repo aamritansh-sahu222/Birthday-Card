@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday 🎉</title>
+  <style>
+    :root{
+      --bg1:#0f172a;
+      --bg2:#0f3460;
+      --accent:#ffd166;
+      --card:#0b1220;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(255,209,102,0.08), transparent),
+                  linear-gradient(160deg,var(--bg1),var(--bg2));
+      display:flex;align-items:center;justify-content:center;padding:24px;color:white;
+    }
+    .card{width:min(980px,96vw);height:min(640px,86vh);background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));border-radius:18px;box-shadow:0 20px 60px rgba(2,6,23,0.6);overflow:hidden;position:relative;padding:28px;display:grid;grid-template-columns:1fr 420px;gap:20px}
+    .left{padding:12px 18px;display:flex;flex-direction:column;gap:14px}
+    h1{font-size:46px;margin:8px 0 0 0;letter-spacing:-0.02em}
+    .sub{opacity:0.85;margin-top:6px}
+    .nameInput{background:transparent;border:0;border-bottom:2px dashed rgba(255,255,255,0.12);outline:none;color:var(--accent);font-weight:700;font-size:38px;padding:6px 4px;width:100%;max-width:460px}
+    .buttons{display:flex;gap:10px;margin-top:12px;align-items:center}
+    .btn{background:linear-gradient(180deg,#ffffff0d,#ffffff05);border:1px solid rgba(255,255,255,0.06);padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:600}
+    .right{position:relative;display:flex;align-items:center;justify-content:center}
+    .balloon{position:absolute;bottom:8px;border-radius:100px 100px 90px 90px;transform-origin:center bottom;box-shadow:0 10px 30px rgba(2,6,23,0.5);width:110px;height:140px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px}
+    .balloon .knot{width:8px;height:18px;background:rgba(0,0,0,0.06);border-radius:4px}
+    .string{position:absolute;bottom:-72px;width:2px;height:90px;background:linear-gradient(#fff0,#fff4);left:50%;transform:translateX(-50%)}
+    .b1{background:linear-gradient(180deg,#ff8fab,#ff5972);left:10%;animation:float 8s ease-in-out infinite, sway 3s ease-in-out infinite}
+    .b2{background:linear-gradient(180deg,#9be7ff,#5cc8ff);left:30%;width:96px;height:120px;animation:float 9s ease-in-out .6s infinite, sway 3.2s ease-in-out infinite .6s}
+    .b3{background:linear-gradient(180deg,#b9ffb7,#6fe28a);left:55%;width:130px;height:160px;animation:float 7.5s ease-in-out .9s infinite, sway 3.6s ease-in-out infinite .9s}
+    .b4{background:linear-gradient(180deg,#ffd89b,#ffb86b);left:78%;width:100px;height:130px;animation:float 8.8s ease-in-out 1.2s infinite, sway 2.9s ease-in-out infinite 1.2s}
+    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-28px)}100%{transform:translateY(0)}}
+    @keyframes sway{0%{transform:translateX(0) rotate(-2deg)}50%{transform:translateX(10px) rotate(4deg)}100%{transform:translateX(0) rotate(-2deg)}}
+    canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+    .footer{position:absolute;left:18px;bottom:12px;font-size:12px;color:rgba(255,255,255,0.45)}
+    @media (max-width:860px){.card{grid-template-columns:1fr;grid-auto-rows:1fr;height:84vh}.right{display:none}.nameInput{font-size:30px}}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <canvas id="confettiCanvas"></canvas>
+    <div class="left">
+      <h1>Happy Birthday, <input id="name" class="nameInput" value="Bade Papa"></h1>
+      <div class="sub">Wishing you a life with a full of joy 🎂</div>
+      <div class="buttons">
+        <button class="btn" id="popBtn">Pop a balloon 💥</button>
+        <label class="btn" for="bgToggle">Dark/Light <input id="bgToggle" type="checkbox" style="display:none"></label>
+      </div>
+    </div>
+    <div class="right">
+      <div class="balloon b1"><div class="knot"></div><div class="string"></div></div>
+      <div class="balloon b2"><div class="knot"></div><div class="string"></div></div>
+      <div class="balloon b3"><div class="knot"></div><div class="string"></div></div>
+      <div class="balloon b4"><div class="knot"></div><div class="string"></div></div>
+    </div>
+    <div class="footer">Made with ❤️ — works on GitHub Pages</div>
+  </div>
+  <script>
+    const canvas=document.getElementById('confettiCanvas');const ctx=canvas.getContext('2d');let W=canvas.width=canvas.offsetWidth;let H=canvas.height=canvas.offsetHeight;window.addEventListener('resize',()=>{W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight});const colors=['#FFD166','#EF476F','#06D6A0','#118AB2','#8ECAE6','#B583FF'];function random(min,max){return Math.random()*(max-min)+min}class Confetto{constructor(){this.x=random(0,W);this.y=random(-H,0);this.size=random(6,12);this.color=colors[Math.floor(Math.random()*colors.length)];this.vx=random(-1.5,1.5);this.vy=random(1,4);this.spin=random(-0.15,0.15);this.rot=random(0,Math.PI*2)}update(){this.x+=this.vx;this.y+=this.vy;this.rot+=this.spin;if(this.y>H+50)this.y=-10}draw(){ctx.save();ctx.translate(this.x,this.y);ctx.rotate(this.rot);ctx.fillStyle=this.color;ctx.fillRect(-this.size/2,-this.size/2,this.size,this.size*0.6);ctx.restore()}}let confetti=[];function launchConfetti(amount=80){for(let i=0;i<amount;i++)confetti.push(new Confetto())}function frame(){ctx.clearRect(0,0,W,H);for(let i=0;i<confetti.length;i++){confetti[i].update();confetti[i].draw()}requestAnimationFrame(frame)}frame();document.querySelectorAll('.balloon').forEach(b=>{b.addEventListener('click',()=>{b.classList.add('pop');setTimeout(()=>b.remove(),420);burstAt(getCenter(b));launchConfetti(22)});});function getCenter(el){const r=el.getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2}}function burstAt(point,count=30){for(let i=0;i<count;i++){const c=new Confetto();c.x=point.x-canvas.getBoundingClientRect().left;c.y=point.y-canvas.getBoundingClientRect().top;c.vx=random(-6,6);c.vy=random(-6,2);confetti.push(c)}}document.getElementById('popBtn').addEventListener('click',()=>{const b=document.querySelector('.balloon');if(b){b.click()}});document.getElementById('bgToggle').addEventListener('change',e=>{if(e.target.checked){document.documentElement.style.setProperty('--bg1','#f8fafc');document.documentElement.style.setProperty('--bg2','#f1f5f9');document.body.style.color='#0b1220'}else{document.documentElement.style.setProperty('--bg1','#0f172a');document.documentElement.style.setProperty('--bg2','#0f3460');document.body.style.color='#fff'}});window.addEventListener('load',()=>{launchConfetti(40)});
+  </script>
+</body>
+</html>
